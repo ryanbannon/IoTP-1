@@ -2,11 +2,11 @@
 import dweepy, time, platform, random
 
 def getTemp():
-    return random.randint(1,1000)
+    return random.randint(1,10)
     # Utilize and adjust sample code given by Grove to your needs
 
 def getHumidity():
-    return random.randint(1,1000)
+    return random.randint(1,100)
     # Utilize and adjust sample code given by Grove to your needs
 
 def getNoiseLevel():
