@@ -37,7 +37,7 @@ var name = 'ryan-iot-ca1'
             marginRight: 10
         },
         title: {
-            text: 'Temperature'
+            text: 'Distance'
         },
         xAxis: {
             type: 'datetime',
@@ -66,7 +66,10 @@ var name = 'ryan-iot-ca1'
         exporting: {
             enabled: false
         },
-        series: [data]
+				series: [{
+	  	      name: 'Distance data',
+	  	      data: data
+	  	   }]
     });
     Highcharts.chart('container2', {
       chart: {
@@ -75,7 +78,7 @@ var name = 'ryan-iot-ca1'
           marginRight: 10
       },
       title: {
-          text: 'Humidity'
+          text: 'LED'
       },
       xAxis: {
           type: 'datetime',
@@ -104,7 +107,10 @@ var name = 'ryan-iot-ca1'
       exporting: {
           enabled: false
       },
-      series: [data]
+			series: [{
+  	      name: 'LED data',
+  	      data: data
+  	   }]
     });
     Highcharts.chart('container3', {
       chart: {
@@ -142,25 +148,23 @@ var name = 'ryan-iot-ca1'
       exporting: {
           enabled: false
       },
-      series: [data]
+      series: [{
+  	      name: 'Noise Level data',
+  	      data: data
+  	   }]
     });
 
     dweetio.get_all_dweets_for(name, function(err, dweets){
-  		console.log(err)
+  		//console.log(err)
   	    for(theDweet in dweets.reverse())
   	    {
   	        var dweet = dweets[theDweet];
 
-  	        val = dweet.content["temperature", "humidity", "noise_level"]
+  	        val = dweet.content["distance", "led_state", "noise_level"]
   			data.push(parseInt(val))
   			array_for_cats.push(dweet.created)
   	    }
-  		console.log(data)
-
-  		series= [{
-  	      name: 'Random data',
-  	      data: data
-  	   }]
+  		//console.log(data)
 
   	   var json = {};
   	   json.chart = chart;
@@ -186,18 +190,22 @@ var name = 'ryan-iot-ca1'
   	  chart.xAxis[0].update({categories: array_for_cats}, true);
   	});
 
+		temp_data = []
+		humid_data = []
+		noise_data = []
+
     dweetio.listen_for(name, function(dweet){
-  	    val = dweet.content["temperature"]
-  			console.log("Temperature Update: ", val)
-				data.push(val);
+  	    val = dweet.content["distance"]
+  			console.log("Distance Update: ", val)
+				temp_data.push(val);
   			var chart = $('#container').highcharts();
   			chart.series[0].addPoint(parseInt(val));
   			array_for_cats.push(dweet.created)
   			chart.xAxis[0].update({categories: array_for_cats}, true);
 
-        val = dweet.content["humidity"]
-  			console.log("Humidity Update: ", val)
-				data.push(val);
+        val = dweet.content["led_state"]
+  			console.log("LED Update: ", val)
+				humid_data.push(val);
   			var chart = $('#container2').highcharts();
   			chart.series[0].addPoint(parseInt(val));
   			array_for_cats.push(dweet.created)
@@ -205,15 +213,19 @@ var name = 'ryan-iot-ca1'
 
   			val = dweet.content["noise_level"]
   			console.log("Noise Level Update: ", val)
-				data.push(val);
+				noise_data.push(val);
   			var chart = $('#container3').highcharts();
   			chart.series[0].addPoint(parseInt(val));
   			array_for_cats.push(dweet.created)
   			chart.xAxis[0].update({categories: array_for_cats}, true);
 
+				console.log(temp_data)
+				console.log(humid_data)
+				console.log(noise_data)
+
 				localStorage.setItem('data', JSON.stringify(data));
 				var retrievedObject = localStorage.getItem('data');
-				console.log(retrievedObject);
+				//console.log(retrievedObject);
     });
 });
 </script>
