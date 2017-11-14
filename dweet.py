@@ -15,7 +15,7 @@ def getDistance():
         try:
             distance = ultrasonicRead(ultrasonic_ranger)
             return distance
-            time.sleep(1)
+            sleep(1)
 
         except IOError:
             print ("Error")
@@ -33,7 +33,7 @@ def getTemperature():
             [temp] = grovepi.dht(sensor,blue)
             if math.isnan(temp) == False:
                 return temp
-                time.sleep(1)
+                sleep(1)
 
         except IOError:
             print ("Error")
@@ -49,7 +49,7 @@ def getLight():
         try:
             sensor_value = grovepi.analogRead(light_sensor)
             return sensor_value
-            time.sleep(1)
+            sleep(1)
 
         except IOError:
             print ("Error")
