@@ -47,6 +47,7 @@ var name = 'ryan-iot-ca1'
         },
         xAxis: {
             type: 'datetime',
+						dateTimeLabelFormats: '%H:%M:%S',
             tickPixelInterval: 150
         },
         yAxis: {
@@ -59,13 +60,12 @@ var name = 'ryan-iot-ca1'
                 color: '#808080'
             }]
         },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
-                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                    Highcharts.numberFormat(this.y, 2);
-            }
-        },
+				tooltip: {
+	          formatter: function () {
+	              return '<b>' + this.series.name + '</b><br/>' +
+							  	Highcharts.numberFormat(this.y, 2);
+	          }
+	      },
         legend: {
             enabled: false
         },
@@ -74,9 +74,91 @@ var name = 'ryan-iot-ca1'
         },
 				series: [{
 	  	      name: 'Distance data',
-	  	      data: data
+	  	      data: dist_data
 	  	   }]
     });
+		/*
+		Highcharts.chart('container', {
+	    chart: {
+	        type: 'column',
+	        animation: Highcharts.svg, // don't animate in old IE
+	        marginRight: 10,
+	        events: {
+	            load: function () {
+
+	                // set up the updating of the chart each second
+	                var series = this.series[0];
+	                setInterval(function () {
+	                    var x = (new Date()).getTime(), // current time
+	                        y = Math.random();
+	                    series.addPoint([x, y], true, true);
+	                }, 1000);
+	            }
+	        }
+	    },
+	    title: {
+	        text: 'Live random data'
+	    },
+	    xAxis: {
+	        type: 'datetime',
+	        tickPixelInterval: 150
+	    },
+	    yAxis: {
+	        title: {
+	            text: 'Value (cm)'
+	        },
+	        plotLines: [{
+	            value: .25,
+	            color: '#4ef442',
+	            dashStyle: 'LongDashDot',
+	            width: 2,
+	            zIndex: 10,
+	            label: {
+	                text: 'Object close to sensor'
+	            }
+	        }, {
+	            value: .75,
+	            color: '#f7f031',
+	            dashStyle: 'LongDashDot',
+	            width: 2,
+	            zIndex: 10,
+	            label: {
+	                text: 'Object far from sensor'
+	            }
+	        }]
+	    },
+	    tooltip: {
+	        formatter: function () {
+	            return '<b>' + this.series.name + '</b><br/>' +
+	                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+	                Highcharts.numberFormat(this.y, 2);
+	        }
+	    },
+	    legend: {
+	        enabled: false
+	    },
+	    exporting: {
+	        enabled: false
+	    },
+	    series: [{
+	        name: 'Random data',
+	        data: (function () {
+	            // generate an array of random data
+	            var data = [],
+	                time = (new Date()).getTime(),
+	                i;
+
+	            for (i = -19; i <= 0; i += 1) {
+	                data.push({
+	                    x: time + i * 1000,
+	                    y: Math.random()
+	                });
+	            }
+	            return data;
+	        }())
+	    }]
+	});
+		*/
     Highcharts.chart('container2', {
       chart: {
           type: 'areaspline',
@@ -88,6 +170,7 @@ var name = 'ryan-iot-ca1'
       },
       xAxis: {
           type: 'datetime',
+					dateTimeLabelFormats: '%H:%M:%S',
           tickPixelInterval: 150
       },
       yAxis: {
@@ -99,12 +182,24 @@ var name = 'ryan-iot-ca1'
               width: 1,
               color: '#808080'
           }]
+			},
+			plotOptions: {
+          series: {
+              zones: [{
+                  value: 10,
+                  color: '#2e41f2'
+              },{
+                  value: 20,
+                  color: '#e8771b'
+              },{
+                  color: '#e82222'
+              }]
+          }
       },
-      tooltip: {
+			tooltip: {
           formatter: function () {
               return '<b>' + this.series.name + '</b><br/>' +
-                  Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                  Highcharts.numberFormat(this.y, 2);
+						  	Highcharts.numberFormat(this.y, 2);
           }
       },
       legend: {
@@ -115,7 +210,7 @@ var name = 'ryan-iot-ca1'
       },
 			series: [{
   	      name: 'Temperature data',
-  	      data: data
+  	      data: temp_data
   	   }]
     });
     Highcharts.chart('container3', {
@@ -128,7 +223,8 @@ var name = 'ryan-iot-ca1'
           text: 'Light Level'
       },
       xAxis: {
-          type: 'datetime',
+					type: 'datetime',
+					dateTimeLabelFormats: '%H:%M:%S',
           tickPixelInterval: 150
       },
       yAxis: {
@@ -144,8 +240,7 @@ var name = 'ryan-iot-ca1'
       tooltip: {
           formatter: function () {
               return '<b>' + this.series.name + '</b><br/>' +
-                  Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                  Highcharts.numberFormat(this.y, 2);
+						  	Highcharts.numberFormat(this.y, 2);
           }
       },
       legend: {
