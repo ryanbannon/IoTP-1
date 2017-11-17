@@ -5,6 +5,7 @@ from grovepi import *
 from time import sleep
 import sqlite3
 
+# with help from: https://github.com/DexterInd/GrovePi/blob/master/Software/Python/grove_ultrasonic.py
 def getDistance():
     ultrasonic_ranger = 4
 
@@ -17,6 +18,7 @@ def getDistance():
         except IOError:
             print ("Error")
 
+# with help from: https://github.com/DexterInd/GrovePi/blob/master/Software/Python/grove_light_sensor.py
 def getLight():
     light_sensor = 1
 
@@ -30,6 +32,7 @@ def getLight():
         except IOError:
             print ("Error")
 
+# with help from: https://github.com/DexterInd/GrovePi/blob/master/Software/Python/grove_dht_pro.py
 def getTemperature():
     dht_sensor = 3
 
