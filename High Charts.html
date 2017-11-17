@@ -16,18 +16,19 @@
 <br><br><div id="container2" style="width: 800px; height: 400px; margin: 0 auto; border-style: solid; border-width: 2px; border-color: #b5b6b7"></div>
 <br><br><div id="container3" style="width: 800px; height: 400px; margin: 0 auto; border-style: solid; border-width: 2px; border-color: #b5b6b7"></div><br><br><br>
 <script language="JavaScript">
-var z;
-for(z=0;z<1;z++){
+
+var i;
+for(i=0;i<1;i++){
 	console.log("HTML Local Storage:");
-	var i;
-	for (i = 0; i < localStorage.length; i++)   {
-			console.log(localStorage.key(i) + "=[" + localStorage.getItem(localStorage.key(i)) + "]");
+	var j;
+	for (j = 0; j < localStorage.length; j++)   {
+			console.log(localStorage.key(j) + "=[" + localStorage.getItem(localStorage.key(j)) + "]");
 	}
 }
 
 var dist_data = []
-var temp_data = []
 var light_data = []
+var temp_data = []
 var data = []
 
 $(document).ready(function () {
@@ -76,6 +77,11 @@ var name = 'ryan-iot-ca1'
 		            }
 		        }]
         },
+				plotOptions: {
+            column: {
+                pointPadding: 0
+            }
+      	},
 				tooltip: {
 	          formatter: function () {
 	              return '<b>' + this.series.name + '</b><br/>' +
@@ -93,7 +99,53 @@ var name = 'ryan-iot-ca1'
 	  	      data: dist_data
 	  	   }]
     });
-    Highcharts.chart('container2', {
+		Highcharts.chart('container2', {
+      chart: {
+          type: 'spline',
+          animation: Highcharts.svg,
+          marginRight: 10
+      },
+      title: {
+          text: '<b>Light Level</b>'
+      },
+      xAxis: {
+					type: 'datetime',
+					dateTimeLabelFormats: '%H:%M:%S',
+          tickPixelInterval: 150
+      },
+      yAxis: {
+          title: {
+              text: 'Value of Light Intensity'
+          },
+          plotLines: [{
+              value: 0,
+              width: 1,
+              color: '#808080'
+          }]
+      },
+      tooltip: {
+          formatter: function () {
+              return '<b>' + this.series.name + '</b><br/>' +
+						  	Highcharts.numberFormat(this.y, 2);
+          }
+      },
+      legend: {
+          enabled: false
+      },
+      exporting: {
+          enabled: false
+      },
+      series: [{
+  	      name: 'Light Level data',
+  	      data: light_data,
+					marker: {
+                symbol: 'url(http://www.freeiconspng.com/uploads/ideas-light-bulb-icon-16.png)',
+                width: 40,
+                height: 40
+            }
+  	   }]
+    });
+    Highcharts.chart('container3', {
       chart: {
           type: 'areaspline',
           animation: Highcharts.svg,
@@ -147,72 +199,19 @@ var name = 'ryan-iot-ca1'
   	      data: temp_data
   	   }]
     });
-    Highcharts.chart('container3', {
-      chart: {
-          type: 'spline',
-          animation: Highcharts.svg,
-          marginRight: 10
-      },
-      title: {
-          text: '<b>Light Level</b>'
-      },
-      xAxis: {
-					type: 'datetime',
-					dateTimeLabelFormats: '%H:%M:%S',
-          tickPixelInterval: 150
-      },
-      yAxis: {
-          title: {
-              text: 'Value of Light Intensity'
-          },
-          plotLines: [{
-              value: 0,
-              width: 1,
-              color: '#808080'
-          }]
-      },
-      tooltip: {
-          formatter: function () {
-              return '<b>' + this.series.name + '</b><br/>' +
-						  	Highcharts.numberFormat(this.y, 2);
-          }
-      },
-      legend: {
-          enabled: false
-      },
-      exporting: {
-          enabled: false
-      },
-      series: [{
-  	      name: 'Light Level data',
-  	      data: light_data,
-					marker: {
-                symbol: 'url(http://www.freeiconspng.com/uploads/ideas-light-bulb-icon-16.png)',
-                width: 50,
-                height: 50
-            }
-  	   }]
-    });
 
     dweetio.get_all_dweets_for(name, function(err, dweets){
   	    for(theDweet in dweets.reverse())
   	    {
   	        var dweet = dweets[theDweet];
 
-  	        val = dweet.content["distance", "temperature", "light_level"]
+  	        val = dweet.content["distance", "light_level", "temperature"]
   			data.push(parseInt(val))
   	    }
 
   	   var json = {};
   	   json.chart = chart;
-  	   json.title = title;
-  	   json.tooltip = tooltip;
-  	   json.xAxis = xAxis;
-  	   json.yAxis = yAxis;
-  	   json.legend = legend;
-  	   json.exporting = exporting;
-  	   json.series = series;
-  	   json.plotOptions = plotOptions;
+			 json.series = series;
 
   	   $('#container').highcharts(json);
   		chart = $('#container').highcharts()
@@ -230,29 +229,35 @@ var name = 'ryan-iot-ca1'
   			var chart = $('#container').highcharts();
   			chart.series[0].addPoint(parseInt(val));
 
-        val = dweet.content["temperature"]
-  			console.log("Temperature Update: ", val)
+  			val = dweet.content["light_level"]
+  			console.log("Light Level Update: ", val)
   			var chart = $('#container2').highcharts();
   			chart.series[0].addPoint(parseInt(val));
 
-  			val = dweet.content["light_level"]
-  			console.log("Light Level Update: ", val)
+				val = dweet.content["temperature"]
+  			console.log("Temperature Update: ", val)
   			var chart = $('#container3').highcharts();
   			chart.series[0].addPoint(parseInt(val));
 
 				console.log(dist_data)
-				console.log(temp_data)
 				console.log(light_data)
+				console.log(temp_data)
 
-				/*localStorage.setItem('dist_data', JSON.stringify(dist_data));
-				var distObject = localStorage.getItem('dist_data');
-				console.log(distObject);
-				localStorage.setItem('temp_data', JSON.stringify(temp_data));
-				var tempObject = localStorage.getItem('temp_data');
-				console.log(tempObject);
-				localStorage.setItem('light_data', JSON.stringify(light_data));
-				var lightObject = localStorage.getItem('light_data');
-				console.log(lightObject);*/
+				var store_dist_data = dist_data.slice();
+				while(store_dist_data.length>100){
+						store_dist_data.shift();
+						localStorage.setItem('store_dist_data', JSON.stringify(store_dist_data));
+				}
+				var store_temp_data = temp_data.slice();
+				while(store_temp_data.length>100){
+						store_temp_data.shift();
+						localStorage.setItem('store_temp_data', JSON.stringify(store_temp_data));
+				}
+				var store_light_data = light_data.slice();
+				while(store_light_data.length>100){
+						store_light_data.shift();
+						localStorage.setItem('store_light_data', JSON.stringify(store_light_data));
+				}
     });
 });
 </script>
