@@ -8,14 +8,16 @@
 		<script src="http://dweet.io/client/dweet.io.min.js"></script>
 </head>
 <body>
-<br><div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
-<br><br><div id="container2" style="width: 800px; height: 400px; margin: 0 auto"></div>
-<br><br><div id="container3" style="width: 800px; height: 400px; margin: 0 auto"></div><br>
+<div style="width:100%;height:225px;background-color:#53a8f4; color: white">
+	<br><center><h1>Internet of Things Principles: Assignment 1</h1><br>
+	<h2>Ryan Bannon - x14488478</h2></center>
+</div>
+<br><div id="container" style="width: 800px; height: 400px; margin: 0 auto; border-style: solid; border-width: 2px; border-color: #b5b6b7"></div>
+<br><br><div id="container2" style="width: 800px; height: 400px; margin: 0 auto; border-style: solid; border-width: 2px; border-color: #b5b6b7"></div>
+<br><br><div id="container3" style="width: 800px; height: 400px; margin: 0 auto; border-style: solid; border-width: 2px; border-color: #b5b6b7"></div><br><br><br>
 <script language="JavaScript">
-//console.log(retrievedObjectdist[-5:])
 var z;
 for(z=0;z<1;z++){
-	// Below code displays all localStorage objects in the console.
 	console.log("HTML Local Storage:");
 	var i;
 	for (i = 0; i < localStorage.length; i++)   {
@@ -37,13 +39,13 @@ var name = 'ryan-iot-ca1'
     });
     Highcharts.chart('container', {
         chart: {
-            type: 'spline',
+            type: 'column',
             animation: Highcharts.svg,
 						zoomType: 'xy',
             marginRight: 10
         },
         title: {
-            text: 'Distance'
+            text: '<b>Distance</b>'
         },
         xAxis: {
             type: 'datetime',
@@ -52,13 +54,27 @@ var name = 'ryan-iot-ca1'
         },
         yAxis: {
             title: {
-                text: 'Value'
+                text: 'Value in Centimetres (cm)'
             },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
+						plotLines: [{
+		            value: 50,
+		            color: '#4ef442',
+		            dashStyle: 'LongDashDot',
+		            width: 2,
+		            zIndex: 10,
+		            label: {
+		                text: 'Object close to sensor'
+		            }
+		        }, {
+		            value: 125,
+		            color: '#f7f031',
+		            dashStyle: 'LongDashDot',
+		            width: 2,
+		            zIndex: 10,
+		            label: {
+		                text: 'Object far from sensor'
+		            }
+		        }]
         },
 				tooltip: {
 	          formatter: function () {
@@ -77,88 +93,6 @@ var name = 'ryan-iot-ca1'
 	  	      data: dist_data
 	  	   }]
     });
-		/*
-		Highcharts.chart('container', {
-	    chart: {
-	        type: 'column',
-	        animation: Highcharts.svg, // don't animate in old IE
-	        marginRight: 10,
-	        events: {
-	            load: function () {
-
-	                // set up the updating of the chart each second
-	                var series = this.series[0];
-	                setInterval(function () {
-	                    var x = (new Date()).getTime(), // current time
-	                        y = Math.random();
-	                    series.addPoint([x, y], true, true);
-	                }, 1000);
-	            }
-	        }
-	    },
-	    title: {
-	        text: 'Live random data'
-	    },
-	    xAxis: {
-	        type: 'datetime',
-	        tickPixelInterval: 150
-	    },
-	    yAxis: {
-	        title: {
-	            text: 'Value (cm)'
-	        },
-	        plotLines: [{
-	            value: .25,
-	            color: '#4ef442',
-	            dashStyle: 'LongDashDot',
-	            width: 2,
-	            zIndex: 10,
-	            label: {
-	                text: 'Object close to sensor'
-	            }
-	        }, {
-	            value: .75,
-	            color: '#f7f031',
-	            dashStyle: 'LongDashDot',
-	            width: 2,
-	            zIndex: 10,
-	            label: {
-	                text: 'Object far from sensor'
-	            }
-	        }]
-	    },
-	    tooltip: {
-	        formatter: function () {
-	            return '<b>' + this.series.name + '</b><br/>' +
-	                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-	                Highcharts.numberFormat(this.y, 2);
-	        }
-	    },
-	    legend: {
-	        enabled: false
-	    },
-	    exporting: {
-	        enabled: false
-	    },
-	    series: [{
-	        name: 'Random data',
-	        data: (function () {
-	            // generate an array of random data
-	            var data = [],
-	                time = (new Date()).getTime(),
-	                i;
-
-	            for (i = -19; i <= 0; i += 1) {
-	                data.push({
-	                    x: time + i * 1000,
-	                    y: Math.random()
-	                });
-	            }
-	            return data;
-	        }())
-	    }]
-	});
-		*/
     Highcharts.chart('container2', {
       chart: {
           type: 'areaspline',
@@ -166,7 +100,7 @@ var name = 'ryan-iot-ca1'
           marginRight: 10
       },
       title: {
-          text: 'Temperature'
+          text: '<b>Temperature</b>'
       },
       xAxis: {
           type: 'datetime',
@@ -175,7 +109,7 @@ var name = 'ryan-iot-ca1'
       },
       yAxis: {
           title: {
-              text: 'Value'
+              text: 'Value in Celsius (°C)'
           },
           plotLines: [{
               value: 0,
@@ -220,7 +154,7 @@ var name = 'ryan-iot-ca1'
           marginRight: 10
       },
       title: {
-          text: 'Light Level'
+          text: '<b>Light Level</b>'
       },
       xAxis: {
 					type: 'datetime',
@@ -229,7 +163,7 @@ var name = 'ryan-iot-ca1'
       },
       yAxis: {
           title: {
-              text: 'Value'
+              text: 'Value of Light Intensity'
           },
           plotLines: [{
               value: 0,
@@ -251,7 +185,12 @@ var name = 'ryan-iot-ca1'
       },
       series: [{
   	      name: 'Light Level data',
-  	      data: light_data
+  	      data: light_data,
+					marker: {
+                symbol: 'url(http://www.freeiconspng.com/uploads/ideas-light-bulb-icon-16.png)',
+                width: 50,
+                height: 50
+            }
   	   }]
     });
 
@@ -263,7 +202,6 @@ var name = 'ryan-iot-ca1'
   	        val = dweet.content["distance", "temperature", "light_level"]
   			data.push(parseInt(val))
   	    }
-  		//console.log(data)
 
   	   var json = {};
   	   json.chart = chart;
@@ -289,19 +227,16 @@ var name = 'ryan-iot-ca1'
     dweetio.listen_for(name, function(dweet){
   	    val = dweet.content["distance"]
   			console.log("Distance Update: ", val)
-				dist_data.push(val);
   			var chart = $('#container').highcharts();
   			chart.series[0].addPoint(parseInt(val));
 
         val = dweet.content["temperature"]
   			console.log("Temperature Update: ", val)
-				temp_data.push(val);
   			var chart = $('#container2').highcharts();
   			chart.series[0].addPoint(parseInt(val));
 
   			val = dweet.content["light_level"]
   			console.log("Light Level Update: ", val)
-				light_data.push(val);
   			var chart = $('#container3').highcharts();
   			chart.series[0].addPoint(parseInt(val));
 
@@ -309,9 +244,15 @@ var name = 'ryan-iot-ca1'
 				console.log(temp_data)
 				console.log(light_data)
 
-				localStorage.setItem('data', JSON.stringify(data));
-				var retrievedObject = localStorage.getItem('data');
-				//console.log(retrievedObject);
+				/*localStorage.setItem('dist_data', JSON.stringify(dist_data));
+				var distObject = localStorage.getItem('dist_data');
+				console.log(distObject);
+				localStorage.setItem('temp_data', JSON.stringify(temp_data));
+				var tempObject = localStorage.getItem('temp_data');
+				console.log(tempObject);
+				localStorage.setItem('light_data', JSON.stringify(light_data));
+				var lightObject = localStorage.getItem('light_data');
+				console.log(lightObject);*/
     });
 });
 </script>
